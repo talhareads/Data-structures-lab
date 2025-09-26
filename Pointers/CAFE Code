@@ -1,0 +1,34 @@
+#include <iostream>
+using namespace std;
+
+int main() 
+{
+	int	PE=30;
+	int PL=50;
+	int PC=80;
+	int *Pespresso = &PE;
+	int *Platte = &PL;
+	int *Pcappuccino = &PC;
+	
+	int QE,QL,QC;
+	int *Qespresso = &QE;
+	int *Qlatte = &QL;
+	int *Qcappuccino = &QC;
+	
+	cout<<"Enter Espresso quantity: ";
+	cin>>*Qespresso;
+	cout<<"Enter latte quantity: ";
+	cin>>*Qlatte;
+	cout<<"Enter cappucino quantity: ";
+	cin>>*Qcappuccino;
+		int totalbill = (*Qespresso * *Pespresso) + (*Qlatte * *Platte) + (*Qcappuccino * *Pcappuccino);
+	int *total = &totalbill;
+	cout<<"\n---Cafe Bill---"<<endl;
+	cout<<"Espresso ( "<<*Qespresso<<" x "<<*Pespresso<<") = "<<*Qespresso * *Pespresso<<endl;
+	cout<<"Latte ( "<<*Qlatte<<" x "<<*Platte<<") = "<<*Qlatte * *Platte<<endl;
+	cout<<"Cappuccino ( "<<*Qcappuccino<<" x "<<*Pcappuccino<<") = "<<*Qcappuccino * *Pcappuccino<<endl;
+	cout<<"--------------"<<endl;
+	cout<<"Total Bill: "<<*total<<endl;
+	
+	return 0;
+}
