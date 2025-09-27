@@ -44,7 +44,7 @@ int main() {
     if (attendance[i] == 1) {
         cout <<" Present";
     } else {
-        cout << "Absent" ;
+        cout << " Absent" ;
     }
 
     cout << endl;
