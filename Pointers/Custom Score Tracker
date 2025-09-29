@@ -28,10 +28,7 @@ int main() {
         cout << "Player " << (i + 1) << " scored: " << scores[i] << endl;
     }
 
-    free(scores);
-
-    return 0;
-}
+ 
     delete[] scores; 
    
     return 0;
