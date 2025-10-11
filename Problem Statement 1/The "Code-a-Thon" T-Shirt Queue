@@ -1,32 +1,41 @@
 #include <iostream>
 #include <string>
 using namespace std;
+
 struct Student {
     string name;
     int id;
     Student* next;
     Student* prev;
 
-     Student(string n, int i) {
+    Student(string n, int i) {
         name = n;
         id = i;
         next = nullptr;
         prev = nullptr;
     }
 };
+
 class TShirtQueue {
 private:
     Student* front;
     Student* rear;
     int count;
+    const int MAX_STUDENTS = 100; // limit of 100 students
 
 public:
-	TShirtQueue() {
-    front = nullptr;
-    rear = nullptr;
-    count = 0;
-}
-	void addStudent(string name, int id) {
+    TShirtQueue() {
+        front = nullptr;
+        rear = nullptr;
+        count = 0;
+    }
+
+    void addStudent(string name, int id) {
+        if (count >= MAX_STUDENTS) {
+            cout << "Queue is full! Only the first 100 students can register for the T-shirt.\n";
+            return;
+        }
+
         Student* newStudent = new Student(name, id);
 
         if (!rear) {
@@ -38,15 +47,16 @@ public:
         }
 
         count++;
-        cout << name << " (ID: " << id << ") added to the queue.\n";
+        cout << name << " (ID: " << id << ") added to the queue."<<endl;
     }
+
     void serveStudent() {
         if (!front) {
-            cout << "Queue is empty. No student to serve.\n";
+            cout << "Queue is empty. No student to serve."<<endl;
             return;
         }
 
-        cout << front->name << " (ID: " << front->id << ") has been served and removed from the queue.\n";
+        cout << front->name << " (ID: " << front->id << ") has been served and removed from the queue."<<endl;
 
         Student* temp = front;
         front = front->next;
@@ -59,6 +69,7 @@ public:
         delete temp;
         count--;
     }
+
     void removeStudent(int id) {
         if (!front) {
             cout << "Queue is empty. Cannot remove student."<<endl;
@@ -66,7 +77,6 @@ public:
         }
 
         Student* current = front;
-
         while (current) {
             if (current->id == id) {
                 if (current->prev)
@@ -89,7 +99,8 @@ public:
 
         cout << "Student with ID " << id << " not found in the queue."<<endl;
     }
-	 void displayQueue() {
+
+    void displayQueue() {
         if (!front) {
             cout << "Queue is empty."<<endl;
             return;
@@ -98,15 +109,16 @@ public:
         Student* current = front;
         cout << "\nCurrent Queue:\n";
         while (current) {
-            cout << "Name: " << current->name << " | ID: " << current->id << endl ;
+            cout << "Name: " << current->name << " | ID: " << current->id << endl;
             current = current->next;
         }
         cout << endl;
     }
 
     void countStudents() {
-        cout << "Total students in queue: " << count << endl;
+        cout << "Total students in queue: " << count << " / " << MAX_STUDENTS << endl;
     }
+
     ~TShirtQueue() {
         Student* current = front;
         while (current) {
@@ -116,21 +128,21 @@ public:
         }
     }
 };
+
 int main() {
     TShirtQueue queue;
     int choice;
 
     do {
         cout << "\n==== Code-a-Thon T-Shirt Queue ====\n";
-        cout << "1. Add Student\n";
-        cout << "2. Serve Student\n";
-        cout << "3. Student Leaves Queue\n";
-        cout << "4. Display Queue\n";
-        cout << "5. Count Students\n";
-        cout << "6. Exit\n";
+        cout << "1. Add Student"<<endl;
+        cout << "2. Serve Student"<<endl;
+        cout << "3. Student Leaves Queue"<<endl;
+        cout << "4. Display Queue"<<endl;
+        cout << "5. Count Students"<<endl;
+        cout << "6. Exit"<<endl;
         cout << "Enter your choice: ";
         cin >> choice;
-
         cin.ignore();
 
         switch (choice) {
@@ -165,14 +177,15 @@ int main() {
                 break;
 
             case 6:
-                cout << "Exiting the application.\n";
+                cout << "Exiting the application."<<endl;
                 break;
 
             default:
-                cout << "Invalid choice. Please try again.\n";
+                cout << "Invalid choice. Please try again."<<endl;
         }
 
     } while (choice != 6);
 
     return 0;
 }
+
