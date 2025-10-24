@@ -1,0 +1,266 @@
+#include<iostream>
+#include<conio.h>
+#include<iomanip>
+using namespace std;
+
+class Node {
+
+public:
+
+	int data;
+	Node* next;
+	Node* prev;
+
+
+	Node(int value)
+	{
+		this->data = value;
+		this->next = nullptr;
+		this->prev = nullptr;
+
+	}
+
+
+
+};
+
+class DLL
+{
+
+public:
+
+	Node* head;
+	Node* tail;
+
+
+	DLL()
+	{
+		head = nullptr;
+		tail = nullptr;
+	}
+
+	//Task 1: Create a destructor
+	~DLL()
+	{
+    	Node* current = head;
+    	while (current != nullptr)
+		{
+		
+        Node* temp = current;
+        current = current->next;
+        delete temp;
+    	}
+    	head = nullptr;
+    	tail = nullptr;
+    	cout << "Destructor called: All nodes deleted successfully.\n";
+	}
+
+	void display()
+	{
+		Node* current = head;
+
+		if (current == nullptr)
+		{
+			cout << "List is Empty" << endl;
+			return;
+		}
+
+		while (current != nullptr)
+		{
+			cout << current->data << endl;
+			current = current->next;
+		}
+	}
+
+	/*Display():
+	*	This function is used to display the nodes.
+	*	Prev Address: Contains the Address to the Previous Node
+	*	Data: Contains the Values
+	*	Next Address: Contians the Address of the Next Node
+	*	Node Address: Address of the Complete Node
+	*/
+	void Display() {
+		Node* temp = head;
+		cout << "\n------------------------------------------------------\n";
+		cout << "     Prev Address        |   Data   |     Next Address |   Node Address\n";
+		cout << "------------------------------------------------------\n";
+
+		while (temp != nullptr) {
+			cout << setw(20) << temp->prev   // shows prev pointer address
+				<< " | " << setw(7) << temp->data   // data field
+				<< " | " << setw(18) << temp->next  // shows next pointer address
+				<< " | " << setw(20) << temp
+				<< endl;
+			temp = temp->next;
+		}
+		cout << endl << "Tail: " << tail << endl;
+		cout << "------------------------------------------------------\n";
+	}
+
+
+
+	/*
+	* insertAtBegin():
+	*	This function is used to insert the Node at the begining.
+	*/
+	void insertAtBegin(int value)
+	{
+		Node* newNode = new Node(value);
+
+		newNode->next = head;
+
+		if (head != nullptr)
+		{
+			head->prev = newNode;
+		}
+		head = newNode;
+
+		if (head->next == nullptr)
+		{
+			tail = newNode;
+		}
+	}
+
+	/* insertAtPos()
+	*	This function is used to insert values at specific position
+	*	This function will contains your task 2.
+	*/
+	void insertAtPos(int position, int value)
+{
+    if (position <= 0)
+    {
+        cout << "Invalid position!\n";
+        return;
+    }
+
+    if (head == nullptr || position == 1)
+    {
+        insertAtBegin(value);
+        return;
+    }
+
+    Node* current = head;
+    int index = 1;
+
+    // Traverse to (position - 1)
+    while (current->next != nullptr && index < position - 1)
+    {
+        current = current->next;
+        index++;
+    }
+
+    // If position is greater than size, insert at end
+    if (current->next == nullptr)
+    {
+        insertAtEnd(value);
+        return;
+    }
+
+    Node* newNode = new Node(value);
+    newNode->next = current->next;
+    newNode->prev = current;
+    current->next->prev = newNode;
+    current->next = newNode;
+}
+
+
+void deleteFB()
+{
+    if (head == nullptr)
+    {
+        cout << "List is Empty\n";
+        return;
+    }
+
+    Node* temp = head;
+    head = head->next;
+    delete temp;
+
+    if (head != nullptr)
+        head->prev = nullptr;
+    else
+        tail = nullptr; // if list became empty
+
+    cout << "First node deleted successfully.\n";
+}
+
+	void DisplayNode(Node* node) {
+    if (node == nullptr) {
+        cout << "Node not found!\n";
+        return;
+    }
+
+    cout << "\n------------------------------------------------------\n";
+    cout << "     Prev Address        |   Data   |     Next Address |   Node Address\n";
+    cout << "------------------------------------------------------\n";
+    cout << setw(20) << node->prev
+        << " | " << setw(7) << node->data
+        << " | " << setw(18) << node->next
+        << " | " << setw(20) << node
+        << endl;
+    cout << "------------------------------------------------------\n";
+}
+
+	void search(int value)
+	{
+		Node* current = head;
+
+		while (current != nullptr)
+		{
+			if (current->data == value)
+			{
+				cout << "Node found...";
+				DisplayNode(current);
+			}
+			current = current->next;
+		}
+	}
+
+	void insertAtEnd(int value)
+	{
+		if (tail == nullptr)
+		{
+			insertAtBegin(value);
+		}
+		else
+		{
+			Node* current = tail;
+			Node* newNode = new Node(value);
+
+
+			current->next = newNode;
+			newNode->prev = current;
+			newNode->next = nullptr;
+			tail = newNode;
+
+		}
+	}
+
+
+};
+
+int main()
+{
+    DLL list;
+
+    // Task 2: Insert Elements
+    list.insertAtBegin(10);
+    list.insertAtEnd(20);
+    list.insertAtEnd(30);
+    list.insertAtPos(2, 15);  // Insert 15 at position 2
+    list.insertAtPos(5, 40);  // Insert at end (position 5)
+
+    cout << "\nList after insertions:\n";
+    list.Display();
+
+    // Task 3: Delete front node
+    list.deleteFB();
+    cout << "\nList after deleting first node:\n";
+    list.Display();
+
+    // Task 4: Search and display a node
+    list.search(30);
+
+    return 0;
+}
+
